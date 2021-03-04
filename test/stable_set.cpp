@@ -340,3 +340,20 @@ BOOST_AUTO_TEST_CASE(ComplexType2Vector)
         }
     }
 }
+
+BOOST_AUTO_TEST_CASE(SimpleCopy)
+{
+    set_stable<size_t> set;
+    for(size_t i = 0; i < 10000; ++i)
+    {
+        set.insert(i);
+    }
+    {
+        auto cpy = set;
+        size_t i = 0;
+        for(; i < 10000; ++i)
+            BOOST_REQUIRE(cpy.exists(i).first);
+        for(; i < 20000; ++i)
+            BOOST_REQUIRE(!cpy.exists(i).first);
+    }
+}

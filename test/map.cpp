@@ -224,3 +224,22 @@ BOOST_AUTO_TEST_CASE(SimpleIterator)
     }
     BOOST_CHECK_EQUAL(cnt, x);
 }
+
+BOOST_AUTO_TEST_CASE(SimpleCopyMap)
+{
+    ptrie::map<size_t, size_t> map;
+    for(size_t i = 0; i < 10000; ++i)
+    {
+        map[i] = 2*i;
+    }
+    {
+        auto cpy = map;
+        size_t i = 0;
+        for(; i < 10000; ++i) {
+            BOOST_REQUIRE(cpy.exists(i).first);
+            BOOST_REQUIRE(cpy[i] == 2*i);
+        }
+        for(; i < 20000; ++i)
+            BOOST_REQUIRE(!cpy.exists(i).first);
+    }
+}
